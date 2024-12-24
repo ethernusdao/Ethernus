@@ -54,3 +54,43 @@ Welcome to the **Ethernus Ecosystem** repository! This project aims to provide a
    ```bash
    git clone https://github.com/<your-org>/Ethernus-Ecosystem.git
    cd Ethernus-Ecosystem
+
+Install dependencies (example with Node + Hardhat):
+npm install
+# or
+yarn install
+
+Compile contracts:
+npx hardhat compile
+
+Run tests:
+npx hardhat test
+Test files are located in test/ with subdirectories matching the contracts folder structure.
+
+Deployment:
+
+Inside scripts/deploy/, you will find scripts like deploy-ETUSManager.js.
+Example usage:
+npx hardhat run scripts/deploy/deploy-ETUSManager.js --network mumbai
+
+Adjust for your chosen network (mainnet, testnet, etc.).
+
+Contributing
+Issues: Feel free to open an issue for bugs or feature requests.
+Pull Requests: Fork this repo, create a feature branch, and submit a PR to dev or main (depending on the workflow).
+Testing: Please ensure new and modified contracts have test coverage in the test/ directory.
+License
+This repository is licensed under the MIT License. Please review the LICENSE file for details.
+All contributions to this repo are assumed to be under the same license.
+
+Roadmap and Documentation
+Whitepaper: Detailed explanation of the Ethernus Ecosystem is in docs/whitepaper/whitepaper.md.
+Tokenomics: For ETUS and the entire token distribution logic, see docs/tokenomics/etus-tokenomics.md.
+Architecture: Diagrams and overviews in docs/architecture.
+Security and Audits
+Ethernus Ecosystem contracts are intended to undergo continuous audits and security reviews. All audit reports and community findings will be listed under docs/audits/ (if applicable). We encourage responsible disclosure and community feedback to keep the ecosystem robust.
+
+Thank You!
+Thank you for your interest in the Ethernus Ecosystem. We look forward to building a transparent, secure, and community-driven platform to ensure the stability and evolution of ETUS, sETUS, SLAR, and the entire DeFi environment surrounding them. If you have any questions or suggestions, please open an issue or start a discussion.
+
+Ethernus Ecosystem – Empowering a stable, meritocratic, and antifragile community.
