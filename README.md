@@ -1,67 +1,119 @@
-# Ethernus Ecosystem
+# Ethernus - Official Repository
 
-Welcome to the **Ethernus Ecosystem** repository! This project aims to provide a modular and scalable framework for all core smart contracts and supporting scripts related to ETUS, sETUS, SLAR, pools (Donation, Alliance, Staking), the PriceBalancer mechanism, the InsuranceFund, and governance components (multisig or DAO). Below you will find an overview of the folder structure, how each component works, and guidelines on contributing and running tests.
-
----
-
-## Repository Structure
-
-
-### Overview of Each Folder
-
-1. **`contracts/`**  
-   - **`core/`**  
-     - Holds the fundamental contracts such as `ETUS.sol`, `ETUSManager.sol`, `sETUS.sol`, `SLAR.sol`, `PriceBalancer.sol`, and `InsuranceFund.sol`.  
-     - The `governance/` subdirectory contains contracts related to multisig or DAO governance (e.g., `MultisigContract.sol`, `DAOContract.sol`).  
-   - **`pools/`**  
-     - Contains the different pool contracts for Donation, Alliance, and Staking: `DonationPool.sol`, `AlliancePool.sol`, `StakingPool.sol`.  
-   - **`vesting/`**  
-     - Stores contracts for vesting logic, specifically `VestingContractTeam.sol` for the dynamic monthly release.  
-   - **`libraries/`**  
-     - Shared libraries (like `SafeMath.sol`, `HtVtCalculations.sol`, etc.).  
-   - **`interfaces/`**  
-     - Interface definitions (`IETUSManager.sol`, `IPools.sol`) to standardize contract interactions.
-
-2. **`scripts/`**  
-   - **`deploy/`**  
-     - Deployment scripts (e.g., `deploy-ETUSManager.js`, `deploy-Pools.js`) using Hardhat or Truffle.  
-   - **`automation/`**  
-     - Contains off-chain automation or keeper scripts (e.g., `priceBalancerBot.js`) that monitor price or orchestrate routine tasks.  
-
-3. **`test/`**  
-   - **`core/`**, **`pools/`**, **`vesting/`**  
-     - Unit/integration tests organized by contract category. For example, `ETUS.test.js`, `DonationPool.test.js`, `VestingContractTeam.test.js`.  
-
-4. **`docs/`**  
-   - **`whitepaper/`**  
-     - The main whitepaper (`whitepaper.md` or PDF) plus images if needed.  
-   - **`tokenomics/`**  
-     - Documentation about ETUS tokenomics, distribution, vesting, etc.  
-   - **`architecture/`**  
-     - System architecture, diagrams, and overviews (`architecture-overview.md`, diagrams in `Ethernus_Ecosystem.png`).  
-   - **`readme-images/`**  
-     - Images used in the main `README.md` or other docs.  
-
-5. **`.github/`**  
-   - **`workflows/`**  
-     - Continuous Integration (CI) files, for example `ci.yml` or `test.yml`.  
-   - **`ISSUE_TEMPLATE.md`**  
-     - Template for GitHub issues.  
-
-6. **`README.md`** (root)  
-   - An overview of the Ethernus Ecosystem, plus usage instructions, how to run tests, disclaimers, etc.
-
-7. **`LICENSE`**  
-   - Defines the project’s open-source license (e.g., MIT).
-
-8. **`package.json`**  
-   - Node.js dependencies if using Hardhat or Truffle.
+Welcome to **Ethernus**! This `README.md` file consolidates all the information needed for developers to understand the repository structure, naming conventions, GitHub workflow, best practices, contribution guidelines, testing and coverage procedures, deployment steps, environment configuration, integrated tools, as well as license and support details.
 
 ---
 
-## Getting Started
+## Table of Contents
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/<your-org>/Ethernus-Ecosystem.git
-   cd Ethernus-Ecosystem
+1. [Notes](#notes)  
+2. [Folder Structure](#folder-structure)  
+3. [Naming Conventions](#naming-conventions)  
+4. [Git Workflow](#git-workflow)  
+5. [Best Practices](#best-practices)  
+6. [Contribution Guide](#contribution-guide)  
+7. [Tests and Coverage](#tests-and-coverage)  
+8. [Deployment Procedures](#deployment-procedures)  
+9. [Environment Setup](#environment-setup)  
+10. [Integrated Tools](#integrated-tools)  
+11. [License](#license)  
+12. [Contact and Support](#contact-and-support)
+
+---
+
+## Notes
+
+This **Ethernus** repository is exclusively focused on developing the ecosystem built around the ETUS token, its price stabilization mechanism (PriceBalancer), engagement pools (DonationPool, AlliancePool, StakingPool), dynamic vesting (Team Founders and Marketing/Development funds), and gradual governance (multisig/DAO).
+
+- **Scope**: All Ethernus-related work is kept here. The “Solares” project will have a separate repository.  
+- **Modular Organization**: The approach is divided by contracts and folders to facilitate maintenance, testing, and scalability.  
+- **Roadmap Compliance**: Development is prioritized according to essential phases (fundamental contracts, pools, and later, full governance).
+
+---
+
+## Folder Structure
+
+Below is the main directory architecture of the **Ethernus** repository:
+
+```text
+Ethernus/
+├─ .github/
+│   ├─ workflows/
+│   │   ├─ test-and-deploy.yml        # CI/CD pipeline for tests and deployment
+│   │   └─ lint-check.yml            # Style/lint validation
+│   └─ ISSUE_TEMPLATE.md             # Issue template
+│
+├─ contracts/
+│   ├─ core/
+│   │   ├─ ETUSManager.sol           # Facade contract for handling ETUS
+│   │   ├─ PriceBalancer.sol         # Price stability logic (~US$0.10)
+│   │   ├─ InsuranceFund.sol         # Countercyclical fund (optional)
+│   │   └─ ...
+│   ├─ vesting/
+│   │   ├─ VestingContractTeam.sol   # Dynamic vesting for the team
+│   │   ├─ AirdropPool.sol           # Evolutionary distribution
+│   │   ├─ DevMarketingFund.sol      # Development/Marketing fund
+│   │   └─ ...
+│   ├─ pools/
+│   │   ├─ DonationPool.sol          # ETUS donation pool
+│   │   ├─ AlliancePool.sol          # sETUS alliance pool
+│   │   └─ StakingPool.sol           # Staking sETUS → SLAR
+│   ├─ governance/
+│   │   ├─ MultisigHelper.sol        # Multisig integrations
+│   │   ├─ GovernanceToken.sol       # Governance token (if applicable)
+│   │   └─ GovernorContract.sol      # On-chain governance contract
+│   └─ tokens/
+│       ├─ ETUS.sol                  # Reference to the ETUS token (immutable)
+│       ├─ sETUS.sol                 # Intermediate token
+│       └─ SLAR.sol                  # Final token (if part of governance)
+│
+├─ scripts/
+│   ├─ deploy/
+│   │   ├─ deployETUSManager.js      # Deployment scripts
+│   │   ├─ deployPools.js
+│   │   ├─ deployPriceBalancer.js
+│   │   └─ ...
+│   ├─ maintenance/
+│   │   ├─ updatePriceOracle.js
+│   │   ├─ pauseContracts.js
+│   │   └─ ...
+│   └─ utils/
+│       ├─ generatePoolConfig.js
+│       └─ ...
+│
+├─ test/
+│   ├─ core/
+│   │   ├─ ETUSManager.test.js
+│   │   ├─ PriceBalancer.test.js
+│   │   └─ InsuranceFund.test.js
+│   ├─ vesting/
+│   │   ├─ VestingContractTeam.test.js
+│   │   └─ AirdropPool.test.js
+│   ├─ pools/
+│   │   ├─ DonationPool.test.js
+│   │   ├─ AlliancePool.test.js
+│   │   └─ StakingPool.test.js
+│   ├─ governance/
+│   │   ├─ Multisig.test.js
+│   │   └─ GovernorContract.test.js
+│   └─ tokens/
+│       ├─ sETUS.test.js
+│       └─ SLAR.test.js
+│
+├─ docs/
+│   ├─ whitepaper/
+│   ├─ tokenomics/
+│   ├─ architecture/
+│   ├─ roadmap/
+│   └─ README.md
+│
+├─ config/
+│   ├─ .solhint.json
+│   ├─ .prettierrc
+│   ├─ networks.config.js
+│   └─ environment.sample
+│
+├─ .env.example
+├─ README.md                         # <--- THIS FILE
+├─ CONTRIBUTING.md
+└─ LICENSE
